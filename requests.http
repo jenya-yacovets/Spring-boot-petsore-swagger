@@ -1,0 +1,146 @@
+############################################ User ######################################################
+#Create user
+POST http://localhost:8080/user
+Content-Type: application/json
+
+{
+  "id": 0,
+  "username": "username",
+  "firstName": "string",
+  "lastName": "string",
+  "email": "string",
+  "password": "string",
+  "phone": "string",
+  "userStatus": 0
+}
+
+###
+
+#Create user with array
+POST http://localhost:8080/user/createWithArray
+Content-Type: application/json
+
+[
+  {
+    "id": 0,
+    "username": "username2",
+    "firstName": "string",
+    "lastName": "string",
+    "email": "string",
+    "password": "string",
+    "phone": "string",
+    "userStatus": 0
+  },
+  {
+    "id": 0,
+    "username": "username3",
+    "firstName": "string",
+    "lastName": "string",
+    "email": "string",
+    "password": "string",
+    "phone": "string",
+    "userStatus": 0
+  }
+]
+
+###
+#Delete user
+DELETE http://localhost:8080/user/username
+
+
+###
+#Update user
+PUT http://localhost:8080/user/username
+Content-Type: application/json
+
+{
+  "id": 0,
+  "username": "username",
+  "firstName": "NewFirstNameName",
+  "lastName": "NewLastName",
+  "email": "string",
+  "password": "string",
+  "phone": "string",
+  "userStatus": 0
+}
+
+###
+#Get user
+GET http://localhost:8080/user/username
+
+###
+#Login user
+GET http://localhost:8080/user/login?username=username&password=string
+
+###
+#Logout user
+GET http://localhost:8080/user/logout
+X-api-key: 1bc0833a-e2d7-41d3-bfb9-329f8b9a6b21
+
+############################################ Store ######################################################
+#Create order
+POST http://localhost:8080/store/order
+Content-Type: application/json
+X-api-key: c4853ceb-db49-4649-b086-6b13eedc71cf
+
+{
+  "id": 0,
+  "petId": 0,
+  "quantity": 0,
+  "shipDate": "2021-06-09T11:56:38.357Z",
+  "status": "PLACED",
+  "complete": true
+}
+
+###
+#Get order
+GET http://localhost:8080/store/order/1
+X-api-key: c4853ceb-db49-4649-b086-6b13eedc71cf
+
+###
+#Get inventory
+GET http://localhost:8080/store/inventory
+X-api-key: c4853ceb-db49-4649-b086-6b13eedc71cf
+
+###
+#Delete order
+DELETE http://localhost:8080/store/order/1
+X-api-key: a0302736-3bca-4af2-8fd5-adf50da72ffd3
+
+
+############################################ Pet ######################################################
+#Create pet
+POST http://localhost:8080/pet
+Content-Type: application/json
+X-api-key: e50f8715-1b75-4e5e-be94-76d9cf54efd9
+
+{
+  "id": 0,
+  "category": {
+    "id": 0,
+    "name": "string"
+  },
+  "name": "doggie",
+  "tags": [
+    {
+      "id": 0,
+      "name": "string"
+    }
+  ],
+  "status": "AVAILABLE"
+}
+
+###
+#Get pet
+GET http://localhost:8080/pet/1
+X-api-key: e50f8715-1b75-4e5e-be94-76d9cf54efd9
+
+###
+#Get pet
+GET http://localhost:8080/pet/findByStatus?status=AVAILABLE
+X-api-key: e50f8715-1b75-4e5e-be94-76d9cf54efd9
+
+###
+#Delete pet
+DELETE http://localhost:8080/pet/1
+X-api-key: e50f8715-1b75-4e5e-be94-76d9cf54efd9
