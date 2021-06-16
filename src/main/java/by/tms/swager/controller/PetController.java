@@ -40,8 +40,6 @@ public class PetController {
 
     @GetMapping("/{petId}")
     public ResponseEntity<Pet> getPet(@PathVariable @Min(1) long petId) {
-        if(petId == 0) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
         try {
             Pet pet = petService.getPet(petId);
             return new ResponseEntity<>(pet, HttpStatus.OK);
