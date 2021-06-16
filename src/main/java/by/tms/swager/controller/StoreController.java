@@ -7,6 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+
 @RestController
 @RequestMapping("/store")
 public class StoreController {
@@ -17,20 +20,18 @@ public class StoreController {
     }
 
     @PostMapping("/order")
-    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
+    public ResponseEntity<Order> createOrder(@Valid @RequestBody Order order) {
         Order newOrder = storeService.createOrder(order);
         return new ResponseEntity<>(newOrder, HttpStatus.CREATED);
     }
 
     @GetMapping("/inventory")
-    public ResponseEntity<Void> getInventory() {
+    public ResponseEntity<?> getInventory() {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/order/{orderId}")
-    public ResponseEntity<Order> getOrder(@PathVariable long orderId) {
-        if(orderId == 0) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
+    public ResponseEntity<Order> getOrder(@PathVariable @Min(1) long orderId) {
         try {
             Order order = storeService.getOrder(orderId);
             return new ResponseEntity<>(order, HttpStatus.OK);
@@ -40,9 +41,7 @@ public class StoreController {
     }
 
     @DeleteMapping("/order/{orderId}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable long orderId) {
-        if(orderId == 0) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
+    public ResponseEntity<?> deleteOrder(@PathVariable @Min(1) long orderId) {
         try {
             storeService.deleteOrder(orderId);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -50,5 +49,4 @@ public class StoreController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
 }

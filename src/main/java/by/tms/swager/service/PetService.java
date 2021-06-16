@@ -3,41 +3,51 @@ package by.tms.swager.service;
 import by.tms.swager.entity.Pet;
 import by.tms.swager.entity.StatusPet;
 import by.tms.swager.exception.PetNotFoundException;
-import by.tms.swager.exception.dao.DataNotFoundDaoException;
-import by.tms.swager.store.pet.PetDao;
-import org.springframework.stereotype.Component;
+import by.tms.swager.repository.CategoryRepository;
+import by.tms.swager.repository.PetRepository;
+import by.tms.swager.repository.TagRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Component
+@Service
+@Transactional
 public class PetService {
-    private final PetDao petDao;
+    private final PetRepository petRepository;
+    private final CategoryRepository categoryRepository;
+    private final TagRepository tagRepository;
 
-    public PetService(PetDao petDao) {
-        this.petDao = petDao;
+    public PetService(PetRepository petRepository, CategoryRepository categoryRepository, TagRepository tagRepository) {
+        this.petRepository = petRepository;
+        this.categoryRepository = categoryRepository;
+        this.tagRepository = tagRepository;
     }
 
     public void createPet(Pet pet) {
-        petDao.save(pet);
+        if(pet.getCategory() != null && pet.getCategory().getId() == 0) {
+            pet.setCategory(categoryRepository.save(pet.getCategory()));
+        }
+
+        for(int i = 0; i < pet.getTags().size(); i++) {
+            if(pet.getTags().get(i).getId() == 0) {
+                pet.getTags().set(i, tagRepository.save(pet.getTags().get(i)));
+            }
+        }
+
+        petRepository.save(pet);
     }
 
     public Pet getPet(long id) throws PetNotFoundException {
-        try {
-            return petDao.getById(id);
-        } catch (DataNotFoundDaoException e) {
-            throw new PetNotFoundException();
-        }
+        return petRepository.findById(id).orElseThrow(PetNotFoundException::new);
     }
 
     public void deletePet(long id) throws PetNotFoundException {
-        try {
-            petDao.delete(id);
-        } catch (DataNotFoundDaoException e) {
-            throw new PetNotFoundException();
-        }
+        getPet(id);
+        petRepository.deleteById(id);
     }
 
     public List<Pet> findByStatus(StatusPet status) {
-        return petDao.findByStatus(status);
+        return petRepository.findPetsByStatus(status);
     }
 }

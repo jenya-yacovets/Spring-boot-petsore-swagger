@@ -2,39 +2,30 @@ package by.tms.swager.service;
 
 import by.tms.swager.entity.Order;
 import by.tms.swager.exception.OrderNotFoundException;
-import by.tms.swager.exception.dao.DataNotFoundDaoException;
-import by.tms.swager.store.store.StoreDao;
-import org.springframework.stereotype.Component;
+import by.tms.swager.repository.OrderRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-@Component
+@Service
+@Transactional
 public class StoreService {
 
-    private final StoreDao storeDao;
+    private final OrderRepository orderRepository;
 
-    public StoreService(StoreDao storeDao) {
-        this.storeDao = storeDao;
+    public StoreService(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
     }
 
     public Order createOrder(Order order) {
-        long id = storeDao.saveOrder(order);
-        order.setId(id);
-        return order;
+        return orderRepository.save(order);
     }
 
     public Order getOrder(long id) throws OrderNotFoundException {
-        try {
-            Order order = storeDao.getById(id);
-            return order;
-        } catch (DataNotFoundDaoException e) {
-            throw new OrderNotFoundException();
-        }
+        return orderRepository.findById(id).orElseThrow(OrderNotFoundException::new);
     }
 
     public void deleteOrder(long id) throws OrderNotFoundException {
-        try {
-            storeDao.delete(id);
-        } catch (DataNotFoundDaoException e) {
-            throw new OrderNotFoundException();
-        }
+        getOrder(id);
+        orderRepository.deleteById(id);
     }
 }

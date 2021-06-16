@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 @RestController
@@ -20,13 +22,13 @@ public class PetController {
     }
 
     @PostMapping()
-    public ResponseEntity<Void> createPet(@RequestBody Pet pet) {
+    public ResponseEntity<?> createPet(@Valid @RequestBody Pet pet) {
         petService.createPet(pet);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping()
-    public ResponseEntity<Void> updatePetInStore() {
+    public ResponseEntity<?> updatePetInStore() {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -37,7 +39,7 @@ public class PetController {
     }
 
     @GetMapping("/{petId}")
-    public ResponseEntity<Pet> getPet(@PathVariable long petId) {
+    public ResponseEntity<Pet> getPet(@PathVariable @Min(1) long petId) {
         if(petId == 0) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         try {
@@ -49,12 +51,12 @@ public class PetController {
     }
 
     @PostMapping("/{petId}")
-    public ResponseEntity<Void> updatePet() {
+    public ResponseEntity<?> updatePet(@PathVariable @Min(1) long petId) {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/{petId}")
-    public ResponseEntity<Void> deletePet(@PathVariable long petId) {
+    public ResponseEntity<?> deletePet(@PathVariable @Min(1) long petId) {
         try {
             petService.deletePet(petId);
             return new ResponseEntity<>(HttpStatus.OK);

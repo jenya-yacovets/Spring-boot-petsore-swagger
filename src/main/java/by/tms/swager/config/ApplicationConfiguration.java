@@ -16,6 +16,6 @@ public class ApplicationConfiguration extends WebMvcConfigurerAdapter {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(authorizationUserInterceptor).addPathPatterns("/store/*", "/store/*/**", "/pet","/pet/*", "/pet/*/**");
+        registry.addInterceptor(authorizationUserInterceptor).addPathPatterns("/store", "/store/*", "/store/*/**", "/pet","/pet/*", "/pet/*/**");
     }
 }
