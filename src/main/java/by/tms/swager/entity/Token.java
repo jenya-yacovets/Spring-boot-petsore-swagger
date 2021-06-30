@@ -16,7 +16,7 @@ public class Token {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @OneToOne
+    @OneToOne()
     private User user;
 
     public Token(User user) {

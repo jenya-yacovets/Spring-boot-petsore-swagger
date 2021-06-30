@@ -10,7 +10,7 @@ Content-Type: application/json
   "email": "example@tms.by",
   "password": "examplePassword",
   "phone": "836477652643",
-  "userStatus": 0
+  "userStatus": 1
 }
 
 ###
@@ -27,7 +27,7 @@ Content-Type: application/json
     "email": "example@tms.by",
     "password": "examplePassword",
     "phone": "836477652643",
-    "userStatus": 0
+    "userStatus": 1
   },
   {
     "username": "username3",
@@ -36,7 +36,7 @@ Content-Type: application/json
     "email": "example@tms.by",
     "password": "examplePassword",
     "phone": "836477652643",
-    "userStatus": 0
+    "userStatus": 1
   }
 ]
 
@@ -57,7 +57,7 @@ Content-Type: application/json
   "email": "example@tms.by",
   "password": "examplePassword",
   "phone": "836477652643",
-  "userStatus": 0
+  "userStatus": 1
 }
 
 ###
@@ -71,7 +71,7 @@ GET http://localhost:8080/user/login?username=username&password=examplePassword
 ###
 #Logout user
 GET http://localhost:8080/user/logout
-X-api-key: edb01569-6e3f-4170-ae6f-8f1e1919284e
+X-api-key: df425b21-0ee2-48fe-8321-493753a45174
 
 ############################################ Store ######################################################
 #Create order

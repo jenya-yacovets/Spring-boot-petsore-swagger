@@ -38,8 +38,12 @@ public class UserController {
 
     @PostMapping({"/createWithArray", "/createWithList"})
     public ResponseEntity<?> userCreateWithArray(@Valid @RequestBody User[] users) {
-        userService.userCreate(users);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        try {
+            userService.userCreate(users);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (LoginIsBusyException e) {
+            return new ResponseEntity<>("Login is busy", HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping("/{username}")
@@ -100,8 +104,8 @@ public class UserController {
         try {
             userService.logoutUser(token);
             return new ResponseEntity<>(HttpStatus.OK);
-        } catch (UserNotFoundException | InvalidTokenException e) {
-            return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+        } catch (InvalidTokenException e) {
+            return new ResponseEntity<>("Invalid token", HttpStatus.BAD_REQUEST);
         }
     }
 }
